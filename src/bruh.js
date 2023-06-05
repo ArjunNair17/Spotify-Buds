@@ -15,29 +15,43 @@ const MainComponent = () => {
       if (!code) {
         redirectToAuthCodeFlow(clientID);
       } else {
-        console.log("got here!");
-        const accessToken = await getAccessToken(clientID, code);
-        const profile = await fetchProfile(accessToken);
-        setToken(accessToken);
-        if(profile.item !== undefined) {
+        const storedAccessToken = window.localStorage.getItem('accessToken');
+        if (storedAccessToken) {
+          setToken(storedAccessToken);
+          const profile = await fetchProfile(storedAccessToken);
+          if (profile !== null) {
             console.log(profile.item.name)
             setName(profile.item.name);
+          }
+          else {
+            setName("Nothing is playing")
+          }
+        } else {
+          const accessToken = await getAccessToken(clientID, code);
+          setToken(accessToken);
+          window.localStorage.setItem('accessToken', accessToken);
+          const profile = await fetchProfile(accessToken);
+          if (profile.item !== null) {
+            console.log(profile.item.name)
+            setName(profile.item.name);
+          }
+          else {
+            setName("Nothing is Playing");
+          }
         }
       }
     };
 
     handleAuthentication();
   }, []);
-  const params = new URLSearchParams(window.location.search);
-    const code = params.get('code')
+  
   const refresh = async () => {
-        const accessToken = await getAccessToken(clientID, code);
-        const profile = await fetchProfile(accessToken);
-        
-        if(profile.item !== undefined) {
-            console.log(profile.item.name);
-            setName(profile.item.name);
-        }
+    const profile = await fetchProfile(accessToken);
+
+    if (profile !== null) {
+      console.log(profile.item.name);
+      setName(profile.item.name);
+    }
   }
 
   async function redirectToAuthCodeFlow(clientId) {
@@ -102,8 +116,16 @@ const MainComponent = () => {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` }
     });
-    console.log("Token: "  + token);
-    return await result.json();
+
+    console.log("Result: " + result.status);
+      
+    if(result.status != 204) {
+      return await result.json();
+    }
+    else {
+      console.log("Token: " + token);
+      return null;
+    }
   }
 
   return (
