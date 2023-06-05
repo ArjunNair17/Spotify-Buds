@@ -12,7 +12,17 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+.NavigationBar {
+  width:100%;
+  background:black;
+  opacity:0.5;
+  color:white;
+  position:fixed;
+  top: 0;
+}
+.signupbar {
+    margin-top: 300px;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
