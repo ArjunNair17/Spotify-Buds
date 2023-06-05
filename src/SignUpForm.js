@@ -23,10 +23,9 @@ export default function SignUpForm() {
     const handleSignUp = (event) => {
         event.preventDefault();
         const auth = getAuth();
-                createUserWithEmailAndPassword(auth, email, pwd).then((userCredential) => alert(userCredential.user)).catch((error) => {alert(error.message)});
-                setEmail("");
-                setPwd("");
-        
+        createUserWithEmailAndPassword(auth, email, pwd).then((userCredential) => alert(userCredential.user)).catch((error) => {alert(error.message)});
+        setEmail("");
+        setPwd("");        
     }
     return (
         <div className="signupbar">

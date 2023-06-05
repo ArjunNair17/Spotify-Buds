@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import SignUpForm from './SignUpForm';
 import NavigationBar from './NavigationBar';
+import { useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,10 +10,12 @@ import {
   Link
 } from "react-router-dom";
 
-import MainComponent from './bruh';
-
+import MainComponent from './SpotifyPage';
 
 function App() {
+  
+  const [userId, setUserId] = useState("");
+
   return (
     <Router>
       <NavigationBar></NavigationBar>
@@ -26,8 +29,8 @@ function App() {
           <h1>Welcome!</h1>
         </Route>
         <Route path="/main">
-          <div className="Main Page">
-            <MainComponent />
+          <div className="MainPage">
+            <MainComponent/>
           </div>
         </Route>
       </Switch>
