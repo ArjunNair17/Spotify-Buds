@@ -3,11 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { FirebaseContext } from './context/FirebaseContext';
+import {app} from './Firebase/config'
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <FirebaseContext.Provider value = {{app}}>
+      <App />
+    </FirebaseContext.Provider>
+    
   </React.StrictMode>
 );
 
