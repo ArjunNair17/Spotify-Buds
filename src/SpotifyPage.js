@@ -41,10 +41,12 @@ const MainComponent = () => {
         redirectToAuthCodeFlow(clientID);
       } else {
         console.log("got here!");
-        await getAccessToken(clientID, code);
+        if(currentAccessToken === "") {
+          await getAccessToken(clientID, code);
+        }
 
 
-        const profile = await fetchProfile(currentAccessToken);
+        const profile = await fetchProfile();
         //setToken(current);
         if (profile.is_playing === true) {
           setName(profile.item.name);
@@ -98,8 +100,10 @@ const MainComponent = () => {
 
 
   const refresh = async () => {
-    const accessToken = await getAccessToken(clientID, code);
-    const profile = await fetchProfile(currentAccessToken);
+    if(currentAccessToken === "") {
+      await getAccessToken(clientID, code);
+    }
+    const profile = await fetchProfile();
     
     if (profile.is_playing === true) {
       setName(profile.item.name);
@@ -168,20 +172,22 @@ const MainComponent = () => {
     console.log(result.json);
     const { access_token } = await result.json();
 
+    console.log("access token" + access_token);
     if (access_token !== undefined) {
+      console.log("acess_token" + access_token);
       setToken(access_token);
       localStorage.setItem("accessToken", access_token);
     }
     return access_token;
   }
 
-  async function fetchProfile(token) {
+  async function fetchProfile() {
+    const token = localStorage.getItem("accessToken");
     const result = await fetch("https://api.spotify.com/v1/me/player/currently-playing", {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` }
     });
-    console.log("Token: " + token);
-    console.log(result.status);
+    console.log(result);
     return await result.json();
   }
 
