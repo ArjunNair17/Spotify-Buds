@@ -3,6 +3,7 @@ import firebase from 'firebase/app'
 import { EmailAuthCredential, getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDatabase, ref, set, get, onValue } from "firebase/database";
 import { app } from './Firebase/config';
+import "./list.css";
 
 const clientID = "4db376ff1b0941de8908d1748f1eb266";
 const redirectURL = "http://localhost:3000/main";
@@ -15,9 +16,16 @@ const MainComponent = () => {
   const [email, setEmail] = useState("");
   const [latitude, setLatitude] = useState(0.0);
   const [longitude, setLongitude] = useState(0.0);
-  
+  const [users, setUsers] = useState([]);
+
 
   useEffect(() => {
+
+    const position = navigator.geolocation.getCurrentPosition((position) => {
+      setLatitude(position.coords.latitude);
+      setLongitude(position.coords.longitude);
+
+    });
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -44,75 +52,82 @@ const MainComponent = () => {
         redirectToAuthCodeFlow(clientID);
       } else {
         console.log("got here!");
-        if(currentAccessToken === "") {
+        if (currentAccessToken === "") {
           await getAccessToken(clientID, code);
         }
 
 
         const profile = await fetchProfile();
         //setToken(current);
-        if(profile !== null) {
+        if (profile !== null) {
           if (profile.is_playing === true) {
             setName(profile.item.name);
             writeData(profile.item.name);
-            getUsers();
+
           }
           else {
             setName("Nothing is currently playing.")
+            getUsers();
           }
         }
-        
-        
+
+
         else {
           setName("Nothing is currently playing.")
+          getUsers();
         }
       }
     };
 
     handleAuthentication();
 
-    
-    
-    
+
+
+
 
   }, []);
 
   function writeData(currentPlayingSong) {
-    const position = navigator.geolocation.getCurrentPosition((position) => {
-      setLatitude(position.coords.latitude);
-      setLongitude(position.coords.longitude);
 
-    });
-    
+
     console.log(email);
     const db = getDatabase();
     set(ref(db, "users/" + uid), {
-        userName:email,
-        currentSong:currentPlayingSong,
-        latitude: latitude,
-        longitude: longitude
+      userName: email,
+      currentSong: currentPlayingSong,
+      latitude: latitude,
+      longitude: longitude
     });
   }
 
   const getUsers = async () => {
     const db = getDatabase();
-    try {
-      const usersRef = ref(db, 'users');
-      const dataSnapshot = await get(usersRef);
-  
-      if (dataSnapshot.exists()) {
-        const users = dataSnapshot.val();
-        console.log(users);
 
-        console.log("closest users: " + findClosestUsers(latitude, longitude, users, 500));
-        
-      } else {
-        console.log('No users found');
+    const usersRef = ref(db, 'users');
+    get(usersRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const users = snapshot.val();
+        console.log(users);
+        const closest = findClosestUsers(latitude, longitude, users, 500);
+        console.log("closests: " + closest[0]);
+        setUsers(closest);
+
       }
-    } catch (error) {
-      console.log('Error getting users:', error);
-    }
-  };
+    });
+  }
+
+  //   if (dataSnapshot.exists()) {
+  //     const users = dataSnapshot.val();
+  //     console.log("users: " + users.name);
+
+
+  //   } else {
+  //     console.log('No users found');
+  //   }
+  // } catch (error) {
+  //   console.log('Error getting users:', error);
+  // }
+
 
 
   const params = new URLSearchParams(window.location.search);
@@ -120,27 +135,30 @@ const MainComponent = () => {
 
 
   const refresh = async () => {
-    if(currentAccessToken === "") {
+    if (currentAccessToken === "") {
       await getAccessToken(clientID, code);
     }
     const profile = await fetchProfile();
 
-    if(profile !== null) {
+    if (profile !== null) {
       if (profile.is_playing === true) {
         setName(profile.item.name);
         writeData(profile.item.name);
         getUsers();
       }
       else {
+        getUsers();
         setName("Nothing is currently playing.")
       }
     }
-    
-    
+
+
     else {
+      getUsers();
       setName("Nothing is currently playing.")
     }
-    
+
+    console.log("users: " + users[0].user);
 
   }
 
@@ -197,12 +215,9 @@ const MainComponent = () => {
       body: params
     });
 
-    console.log(result.json);
     const { access_token } = await result.json();
 
-    console.log("access token" + access_token);
     if (access_token !== undefined) {
-      console.log("acess_token" + access_token);
       setToken(access_token);
       localStorage.setItem("accessToken", access_token);
     }
@@ -215,8 +230,7 @@ const MainComponent = () => {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` }
     });
-    console.log(result);
-    if(result.status === 204) {
+    if (result.status === 204) {
       return null;
     }
     return await result.json();
@@ -228,7 +242,7 @@ const MainComponent = () => {
     const dLon = toRadians(lon2 - lon1);
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(this.toRadians(lat1)) * Math.cos(this.toRadians(lat2)) *
+      Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
       Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const distanceInFeet = earthRadiusInFeet * c;
@@ -242,13 +256,13 @@ const MainComponent = () => {
 
   function findClosestUsers(userLat, userLon, database, radius) {
     const distances = [];
-    console.log("Database: " + database[0].longitude);
+    //onsole.log("Database: " + database);
     for (const person in database) {
-      console.log(database[person]);
+      //console.log(database[person]);
       const distance = calculateDistance(userLat, userLon, database[person].latitude, database[person].longitude);
-      console.log("distance: " + distance);
+      //console.log("distance: " + distance);
       if (distance <= radius) {
-        distances.push({ user: database[person].userId, distance: distance});
+        distances.push({ user: database[person].userName, distance: distance, song: database[person].currentSong });
       }
     }
 
@@ -262,14 +276,28 @@ const MainComponent = () => {
 
 
 
-  refresh();
+
+
+
 
   return (
-    <div>
-      <h1>{name}</h1>
+    <div className="box">
+      <div className="list-container">
+        <ul className="list">
+          {users.map(item => {
+            console.log(item[0]); // Log the userName to the console
+            return (
+              <li key={item.id}>{item.user} {" "} {item.song}</li>
+            );
+          })}
+        </ul>
+
+      </div>
       <button onClick={() => refresh()}>Refresh</button>
     </div>
   );
+
+
 };
 
 export default MainComponent;

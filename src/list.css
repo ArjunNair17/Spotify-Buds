@@ -1,0 +1,24 @@
+.box {
+   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Set the height to occupy the full viewport height */
+  }
+
+.list-container {
+    width: 550px;
+    height: 350px; /* Set the desired height of the scrollable area */
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+  
+  .list {
+    list-style-type: none;
+    padding: 0;
+    margin:0;
+  }
+  
+  .list li {
+    padding: 30px;
+    border-bottom: 4.5px solid #ccc;
+  }
