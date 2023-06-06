@@ -9,7 +9,7 @@ const redirectURL = "http://localhost:3000/main";
 
 
 const MainComponent = () => {
-  const [name, setName] = useState("No Currently Playing");
+  const [name, setName] = useState("Nothing Currently Playing.");
   const [currentAccessToken, setToken] = useState("");
   const [uid, setUid] = useState("");
   const [email, setEmail] = useState("");
