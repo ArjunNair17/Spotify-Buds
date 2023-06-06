@@ -13,6 +13,9 @@ const MainComponent = () => {
   const [currentAccessToken, setToken] = useState("");
   const [uid, setUid] = useState("");
   const [email, setEmail] = useState("");
+  const [latitude, setLatitude] = useState(0.0);
+  const [longitude, setLongitude] = useState(0.0);
+  
 
   useEffect(() => {
     const auth = getAuth();
@@ -48,11 +51,18 @@ const MainComponent = () => {
 
         const profile = await fetchProfile();
         //setToken(current);
-        if (profile.is_playing === true) {
-          setName(profile.item.name);
+        if(profile !== null) {
+          if (profile.is_playing === true) {
+            setName(profile.item.name);
+            writeData(profile.item.name);
+            getUsers();
+          }
+          else {
+            setName("Nothing is currently playing.")
+          }
         }
-
-
+        
+        
         else {
           setName("Nothing is currently playing.")
         }
@@ -68,11 +78,19 @@ const MainComponent = () => {
   }, []);
 
   function writeData(currentPlayingSong) {
+    const position = navigator.geolocation.getCurrentPosition((position) => {
+      setLatitude(position.coords.latitude);
+      setLongitude(position.coords.longitude);
+
+    });
+    
     console.log(email);
     const db = getDatabase();
     set(ref(db, "users/" + uid), {
         userName:email,
-        currentSong:currentPlayingSong
+        currentSong:currentPlayingSong,
+        latitude: latitude,
+        longitude: longitude
     });
   }
 
@@ -85,6 +103,8 @@ const MainComponent = () => {
       if (dataSnapshot.exists()) {
         const users = dataSnapshot.val();
         console.log(users);
+
+        console.log("closest users: " + findClosestUsers(latitude, longitude, users, 500));
         
       } else {
         console.log('No users found');
@@ -104,15 +124,23 @@ const MainComponent = () => {
       await getAccessToken(clientID, code);
     }
     const profile = await fetchProfile();
-    
-    if (profile.is_playing === true) {
-      setName(profile.item.name);
-      writeData(profile.item.name);
-      getUsers();
+
+    if(profile !== null) {
+      if (profile.is_playing === true) {
+        setName(profile.item.name);
+        writeData(profile.item.name);
+        getUsers();
+      }
+      else {
+        setName("Nothing is currently playing.")
+      }
     }
+    
+    
     else {
       setName("Nothing is currently playing.")
     }
+    
 
   }
 
@@ -188,8 +216,51 @@ const MainComponent = () => {
       headers: { Authorization: `Bearer ${token}` }
     });
     console.log(result);
+    if(result.status === 204) {
+      return null;
+    }
     return await result.json();
   }
+
+  function calculateDistance(lat1, lon1, lat2, lon2) {
+    const earthRadiusInFeet = 20903520; // Approximate Earth radius in feet
+    const dLat = toRadians(lat2 - lat1);
+    const dLon = toRadians(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.toRadians(lat1)) * Math.cos(this.toRadians(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distanceInFeet = earthRadiusInFeet * c;
+    const roundedDistance = distanceInFeet.toFixed(2); // Round to two decimal places
+    return roundedDistance;
+  }
+
+  function toRadians(degrees) {
+    return degrees * (Math.PI / 180);
+  }
+
+  function findClosestUsers(userLat, userLon, database, radius) {
+    const distances = [];
+    console.log("Database: " + database[0].longitude);
+    for (const person in database) {
+      console.log(database[person]);
+      const distance = calculateDistance(userLat, userLon, database[person].latitude, database[person].longitude);
+      console.log("distance: " + distance);
+      if (distance <= radius) {
+        distances.push({ user: database[person].userId, distance: distance});
+      }
+    }
+
+    distances.sort((a, b) => a.distance - b.distance);
+    console.log("this.state.distances:", distances);
+    return distances;
+  }
+
+
+
+
+
 
   refresh();
 
