@@ -1,16 +1,7 @@
 import React from 'react';
-// import { getDatabase, ref, set } from "firebase/database";
 import { getDatabase, ref, set, onValue } from "firebase/database";
 import { initializeApp } from "firebase/app";
 import './App.css';
-
-// const userDatabase = [
-//   { name: "User1", lat: 34.0726251, lon: -118.4536259 },
-//   { name: "User2", lat: 34.0726400, lon: -118.4536259 },
-//   { name: "User3", lat: 34.0726450, lon: -118.4536259 },
-//   { name: "User4", lat: 34.0726351, lon: -118.4536259 },
-//   { name: "User5", lat: 34.072540, lon: -118.4536269 }
-// ];
 
 const firebaseConfig = {
   apiKey: "AIzaSyDX1CXAtkqj9Tg1HVYwlcocpkMxB-Y4NTw",
@@ -82,9 +73,12 @@ class App extends React.Component {
           const closestUsers = this.findClosestUsers(latitude, longitude, this.state.userArray, radius);
           this.setState({ closestUsers: closestUsers });
 
+          console.log("this.state.userArray:", this.state.userArray);
+          console.log("this.state.closestUsers:", this.state.closestUsers);
+
           // Write user data to Firebase database
           const db = getDatabase();
-          const userId = "user10"; // Provide a unique user ID
+          const userId = "user11"; // Provide a unique user ID
           set(ref(db, 'Users/' + userId), {
             latitude: latitude,
             longitude: longitude,
@@ -134,16 +128,18 @@ class App extends React.Component {
 
   findClosestUsers(userLat, userLon, database, radius) {
     const distances = [];
-
-    for (const person of database) {
-      const distance = this.calculateDistance(userLat, userLon, person.lat, person.lon);
+    console.log("Database: " + database[0].longitude);
+    for (const person in database) {
+      console.log(database[person]);
+      const distance = this.calculateDistance(userLat, userLon, database[person].latitude, database[person].longitude);
+      console.log("distance: " + distance);
       if (distance <= radius) {
-        distances.push({ user: person.name, distance: distance });
+        distances.push({ user: database[person].userId, distance: distance});
       }
     }
 
     distances.sort((a, b) => a.distance - b.distance);
-
+    console.log("this.state.distances:", this.state.distances);
     return distances;
   }
 
@@ -208,7 +204,6 @@ class App extends React.Component {
           ))}
         </ul>
       )}
-
       {/* {this.state.userArray.map((user) => (
         <div key={user.userId}>
           <p>User ID: {user.userId}</p>
