@@ -4,6 +4,8 @@ import { FirebaseContext } from "./context/FirebaseContext";
 import { app } from "./Firebase/config";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { useHistory } from "react-router-dom";
+import './SignUpForm.css';
+import logo from './logo.svg';
 
 export default function SignUpForm() {
 
@@ -28,15 +30,17 @@ export default function SignUpForm() {
         setPwd("");        
     }
     return (
-        <div className="signupbar">
+        <div className="container">
+            <h1>SpotifyBuds</h1>
             <form>
-                <label>Email</label>
-                <input type="email" value={email} onChange={(event) => setEmail(event.target.value)}></input>
-                <label>Password</label>
-                <input type="password" value={pwd} onChange={(event) => setPwd(event.target.value)}></input>
-                <button onClick = {(event) => handleSignUp(event)}>Sign Up</button>
-                <button onClick= {(event) => handleLogIn(event)}>Log In</button>
+                <input type="email" placeholder="Username" value={email} className="signupbar" onChange={(event) => setEmail(event.target.value)}></input>
+                
+                <input type="password" placeholder="Password" value={pwd} className="signupbar" onChange={(event) => setPwd(event.target.value)}></input>
+                <button className="button" onClick = {(event) => handleSignUp(event)}>Sign Up</button>{"asdsadsads"}
+                
+                <button className="button" onClick= {(event) => handleLogIn(event)}>Log In</button>
             </form>
         </div>
     );
 }
+
