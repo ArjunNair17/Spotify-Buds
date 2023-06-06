@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import firebase from 'firebase/app'
+import { EmailAuthCredential, getAuth, onAuthStateChanged } from "firebase/auth";
+import { getDatabase, ref, set, get, onValue } from "firebase/database";
+import { app } from './Firebase/config';
 
 const clientID = "4db376ff1b0941de8908d1748f1eb266";
 const redirectURL = "http://localhost:3000/main";
@@ -7,7 +11,28 @@ const redirectURL = "http://localhost:3000/main";
 const MainComponent = () => {
   const [name, setName] = useState("No Currently Playing");
   const [currentAccessToken, setToken] = useState("");
+  const [uid, setUid] = useState("");
+  const [email, setEmail] = useState("");
+
   useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        const uid = user.uid;
+        const currentEmail = user.email;
+        console.log("userEmail " + currentEmail);
+        setEmail(currentEmail);
+        setUid(uid);
+        // ...
+      } else {
+        console.log("signed out");
+        // User is signed out
+        // ...
+      }
+    });
+
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code');
 
@@ -17,11 +42,14 @@ const MainComponent = () => {
       } else {
         console.log("got here!");
         await getAccessToken(clientID, code);
+
+
         const profile = await fetchProfile(currentAccessToken);
         //setToken(current);
-        if(profile.is_playing === true){
+        if (profile.is_playing === true) {
           setName(profile.item.name);
         }
+
 
         else {
           setName("Nothing is currently playing.")
@@ -30,20 +58,58 @@ const MainComponent = () => {
     };
 
     handleAuthentication();
+
+    
+    
+    
+
   }, []);
+
+  function writeData(currentPlayingSong) {
+    console.log(email);
+    const db = getDatabase();
+    set(ref(db, "users/" + uid), {
+        userName:email,
+        currentSong:currentPlayingSong
+    });
+  }
+
+  const getUsers = async () => {
+    const db = getDatabase();
+    try {
+      const usersRef = ref(db, 'users');
+      const dataSnapshot = await get(usersRef);
+  
+      if (dataSnapshot.exists()) {
+        const users = dataSnapshot.val();
+        console.log(users);
+        
+      } else {
+        console.log('No users found');
+      }
+    } catch (error) {
+      console.log('Error getting users:', error);
+    }
+  };
+
+
   const params = new URLSearchParams(window.location.search);
-    const code = params.get('code')
+  const code = params.get('code')
+
+
   const refresh = async () => {
-        const accessToken = await getAccessToken(clientID, code);
-        const profile = await fetchProfile(currentAccessToken);
-        console.log(profile);
-        if(profile.is_playing === true){
-          setName(profile.item.name);
-        }
-        else {
-          setName("Nothing is currently playing.")
-        }
-       
+    const accessToken = await getAccessToken(clientID, code);
+    const profile = await fetchProfile(currentAccessToken);
+    
+    if (profile.is_playing === true) {
+      setName(profile.item.name);
+      writeData(profile.item.name);
+      getUsers();
+    }
+    else {
+      setName("Nothing is currently playing.")
+    }
+
   }
 
   async function redirectToAuthCodeFlow(clientId) {
@@ -83,7 +149,7 @@ const MainComponent = () => {
       .replace(/=+$/, '');
   }
 
-   async function getAccessToken(clientId, code) {
+  async function getAccessToken(clientId, code) {
     const verifier = localStorage.getItem("verifier");
 
     const params = new URLSearchParams();
@@ -94,15 +160,15 @@ const MainComponent = () => {
     params.append("code_verifier", verifier);
 
     const result = await fetch("https://accounts.spotify.com/api/token", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: params
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: params
     });
 
     console.log(result.json);
     const { access_token } = await result.json();
-    
-    if(access_token !== undefined) {
+
+    if (access_token !== undefined) {
       setToken(access_token);
       localStorage.setItem("accessToken", access_token);
     }
@@ -114,10 +180,12 @@ const MainComponent = () => {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` }
     });
-    console.log("Token: "  + token);
+    console.log("Token: " + token);
     console.log(result.status);
     return await result.json();
   }
+
+  refresh();
 
   return (
     <div>
