@@ -72,7 +72,7 @@ const MainComponent = () => {
           if (profile.is_playing === true) {
             if (song === "Cannot fetch song!")
               setName();
-            writeData();
+              writeData();
 
           }
           else {
@@ -83,6 +83,7 @@ const MainComponent = () => {
 
 
         else {
+          writeData();
           setName("Nothing is currently playing.")
           //getUsers();
         }
@@ -113,6 +114,8 @@ const MainComponent = () => {
     if (song === "Cannot fetch song!") {
       return;
     }
+
+    console.log("Song " + song);
     const database = getDatabase();
 
     // User data to be added or updated
@@ -219,6 +222,8 @@ const MainComponent = () => {
 
 
     else {
+      writeData();
+      getUsers();
       setName("Nothing is currently playing.")
     }
 
@@ -295,7 +300,7 @@ const MainComponent = () => {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` }
     });
-    console.log(result.status);
+    console.log(result);
     if (result.status === 204) {
       setSong("Nothing is currently playing");
       return null;
@@ -312,7 +317,7 @@ const MainComponent = () => {
 
     const artistTopJson = await artistsTop.json();
     setArtists(artistTopJson.items);
-
+    console.log(artistTopJson);
     if (result.status === 200) {
       if (currentPlaying.is_playing === true) {
         setSong(currentPlaying.item.name);
