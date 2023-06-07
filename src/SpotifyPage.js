@@ -22,6 +22,8 @@ const MainComponent = () => {
   useEffect(() => {
 
     const position = navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position.coords.latitude);
+      console.log(position.coords.longitude);
       setLatitude(position.coords.latitude);
       setLongitude(position.coords.longitude);
 
@@ -158,7 +160,6 @@ const MainComponent = () => {
       setName("Nothing is currently playing.")
     }
 
-    console.log("users: " + users[0].user);
 
   }
 
@@ -284,13 +285,16 @@ const MainComponent = () => {
     <div className="box">
       <div className="list-container">
         <ul className="list">
-          {users.map(item => {
-            console.log(item[0]); // Log the userName to the console
-            return (
-              <li key={item.id}>{item.user} {" "} {item.song}</li>
-            );
-          })}
-        </ul>
+          {users.length > 0 ? (
+            users.map((item) => (
+              <li key={item.id}>
+                {item.user} {item.song}
+              </li>
+            ))
+          ) : (
+            <p>No users available.</p>
+          )}
+          </ul>
 
       </div>
       <button onClick={() => refresh()}>Refresh</button>
