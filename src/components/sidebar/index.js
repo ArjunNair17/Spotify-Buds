@@ -20,7 +20,7 @@ export default function Sidebar() {
         <SidebarButton title="Discover" to="/discover" icon={<RiCompassDiscoverLine />} />
         <SidebarButton title="Search" to="/search" icon={<BiSearchAlt />} />
       </div>
-      <SidebarButton title="Sign Out" to="" icon={<FaSignOutAlt />}/>
+      <div><SidebarButton title="Sign Out" to="" icon={<FaSignOutAlt />} /></div> 
     </div>
   );
 }
