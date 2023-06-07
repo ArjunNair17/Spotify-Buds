@@ -79,7 +79,7 @@ const App = () => {
             <h2>${title}</h2>
             <h3>Latitude: ${lat}, Longitude: ${lng}</h3>
             <h3>Current song: ${song}</h3>
-            <h3>Artists: ${artists[0].name} ${artists[1].name} ${artists[2].name}
+            <h3>Artists: ${artists[0].name}, ${artists[1].name}, ${artists[2].name}
           </div>`);
           infoWindow.open(map, marker);
         });
