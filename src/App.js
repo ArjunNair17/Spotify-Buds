@@ -20,20 +20,21 @@ initializeApp(firebaseConfig);
 const App = () => {
   useEffect(() => {
     fetchUserData();
-    const interval = setInterval(getLocation, 30000); // Update every 30 seconds
+    const interval = setInterval(getLocation, 100000); // Update every 30 seconds
     return () => clearInterval(interval); // Clean up the interval on component unmount
   }, []);
 
   const fetchUserData = () => {
     const db = getDatabase();
-    const usersRef = ref(db, "Users");
+    const usersRef = ref(db, "users");
 
     onValue(usersRef, (snapshot) => {
       const userData = snapshot.val();
       if (userData) {
         const markers = Object.values(userData).map((user) => {
-          const { latitude, longitude } = user;
-          return [`${user.userId}'s Location`, latitude, longitude];
+          const { latitude, longitude, currentSong, artists } = user;
+          console.log("user: ", user);
+          return [`${user.userName}'s Location`, latitude, longitude, currentSong, artists];
         });
 
         initMap(markers);
@@ -60,7 +61,7 @@ const App = () => {
       const infoWindow = new window.google.maps.InfoWindow();
 
       markers.forEach((markerData) => {
-        const [title, lat, lng] = markerData;
+        const [title, lat, lng, song, artists] = markerData;
         console.log("Title:", title);
         const position = new window.google.maps.LatLng(lat, lng);
 
@@ -77,7 +78,8 @@ const App = () => {
           infoWindow.setContent(`<div class="info_content">
             <h2>${title}</h2>
             <h3>Latitude: ${lat}, Longitude: ${lng}</h3>
-            <p>Additional information about the user or location.</p>
+            <h3>Current song: ${song}</h3>
+            <h3>Artists: ${artists[0].name} ${artists[1].name} ${artists[2].name}
           </div>`);
           infoWindow.open(map, marker);
         });
@@ -87,9 +89,9 @@ const App = () => {
       map.setZoom(14);
     };
 
-    const getLocation = () => {
-      fetchUserData();
-    };
+    // const getLocation = () => {
+    //   fetchUserData();
+    // };
 
     if (window.google && window.google.maps) {
       // Google Maps API is already loaded
@@ -97,7 +99,7 @@ const App = () => {
     } else {
       // Load the Google Maps API script
       const googleMapsScript = document.createElement('script');
-      googleMapsScript.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBxDQfDy1nwLkmwaJUfQtNNqXla3kZr-ug`;
+      googleMapsScript.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCGAxuT2e4fr6HcwemlAGCNJ6zsxlpUsdQ`;
       googleMapsScript.defer = true;
       googleMapsScript.onload = loadMap;
       document.head.appendChild(googleMapsScript);
@@ -106,9 +108,10 @@ const App = () => {
 
   return (
     <div className="App">
-      <h2>Geolocation Finder for SpotifyBuds</h2>
-      <div id="mapCanvas" style={{ height: "400px" }}></div>
-    </div>
+  <h1 className="spotifyBudsHeader">SpotifyBuds</h1>
+  <h2>Buds around you</h2>
+  <div id="mapCanvas" style={{ height: "800px" }}></div>
+</div>
   );
 };
 
