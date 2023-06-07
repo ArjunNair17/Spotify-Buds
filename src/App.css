@@ -22,7 +22,13 @@
   top: 0;
 }
 .signupbar {
-    margin-top: 300px;
+    margin-top: 25px !important;
+    margin-bottom: 5px;
+    width: 85% !important;
+  padding: 8px;
+  border: 1px solid #ffffff !important;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 .App-header {
   background-color: #282c34;
