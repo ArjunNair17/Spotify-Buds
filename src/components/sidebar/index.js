@@ -16,7 +16,7 @@ export default function Sidebar() {
         alt="profile" 
       />
       <div>
-        <SidebarButton title="Home" to="/home" icon={<AiOutlineHome />} />
+        <SidebarButton title="Home" to="/main" icon={<AiOutlineHome />} />
         <SidebarButton title="Discover" to="/discover" icon={<RiCompassDiscoverLine />} />
         <SidebarButton title="Search" to="/search" icon={<BiSearchAlt />} />
       </div>

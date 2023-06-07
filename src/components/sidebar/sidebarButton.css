@@ -6,7 +6,7 @@ a {
     height: 80px;
     width: 80px;
     border-radius: 20px;
-    color: #F8D9C0;
+    color: black;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -17,7 +17,7 @@ a {
 }
 
 .btn-body.active{
-    background-color: rgba(34, 139, 34, 1);
+    background-color: rgba(0, 0, 0, 1);
     color: #fff;
     transform: scale(1.05);
 }
