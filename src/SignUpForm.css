@@ -1,11 +1,12 @@
 .container {
-    margin-top: 300px !important;
-    max-width: 400px;
+    margin-top: 235px !important;
+    margin-bottom: 294px !important;
+    max-width: 500px;
     margin: 0 auto;
     background-color: #000000;
     padding: 50px;
     border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 10 10 100px rgba(0, 0, 0, 0.1);
   }
   
   h1 {
@@ -18,7 +19,7 @@
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #ed0101;
     border-radius: 3px;
   }
   
@@ -47,6 +48,8 @@
   
   .button {
     margin-top: 15px;
+    margin-left:10px ;
+    margin-right:10px;
     width: 120px;
     height: 40px;
     border: none;
@@ -62,4 +65,14 @@
     transform: scale(1.1);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   }
+  
+  .RestofPage{
+    background-color: #4d4b4b;
+    color:#0056b3;
+    display: flex;
+    justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  }
+
   
