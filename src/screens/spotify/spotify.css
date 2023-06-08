@@ -1,0 +1,48 @@
+.box {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120vh; /* Set the height to occupy the full viewport height /
+  }
+  
+  .list-container {
+    margin-top: 55%;
+    border: black;
+    border-width: 10px;
+    width: 550px;
+    height: 110%; / Set the desired height of the scrollable area /
+    overflow-y: auto; / Enable vertical scrolling */
+  }
+  
+  
+  .Profile{
+    border: 100px black;
+    transform: translate(100%, 50%);
+    width: 300px;
+    height: 200px;
+    background-color: #f12a2a;
+  }
+  .list {
+    list-style-type: none;
+    padding: 0;
+    margin:0;
+  }
+  
+  .list li {
+    padding: 30px;
+    background-color: black;
+    border-bottom: 4.5px solid rgb(71, 205, 14);
+  }
+  
+  .wrapper{
+    border: 5px solid rgb(71, 205, 14);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .infoStyle{
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+  }
