@@ -5,14 +5,18 @@ import Discover from "../discover";
 import Search from "../search"
 import './main.css';
 import Sidebar from '../../components/sidebar';
+import SignUpForm from '../login';
+import MainComponent from '../spotify';
 
 export default function Main() {
     return (
+    
     <Router>
         <div className="main-body">
+            
             <Sidebar />
             <Routes>
-                <Route path= "/" element={<Home />} />
+                <Route path ="/main" element = {<MainComponent></MainComponent>} />
                 <Route path= "/discover" element={<Discover />} />
                 <Route path= "/search" element={<Search />} />
             </Routes>
