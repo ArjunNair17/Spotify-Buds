@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import firebase from 'firebase/app'
 import { EmailAuthCredential, getAuth, onAuthStateChanged } from "firebase/auth";
-import { getDatabase, ref, set, get, onValue } from "firebase/database";
+import { getDatabase, ref, set, get, onValue, update, push } from "firebase/database";
 import { app } from './Firebase/config';
 import "./list.css";
+
 
 const clientID = "4db376ff1b0941de8908d1748f1eb266";
 const redirectURL = "http://localhost:3000/main";
@@ -17,15 +18,22 @@ const MainComponent = () => {
   const [latitude, setLatitude] = useState(0.0);
   const [longitude, setLongitude] = useState(0.0);
   const [users, setUsers] = useState([]);
+  const [song, setSong] = useState("Cannot fetch song!");
+  const [artists, setArtists] = useState([]);
 
-
-  useEffect(() => {
-
+  const updatePosition = () => {
     const position = navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position.coords.latitude);
+      console.log(position.coords.longitude);
       setLatitude(position.coords.latitude);
       setLongitude(position.coords.longitude);
 
     });
+  };
+
+  useEffect(() => {
+    updatePosition();
+
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -59,23 +67,28 @@ const MainComponent = () => {
 
         const profile = await fetchProfile();
         //setToken(current);
+        console.log(profile);
         if (profile !== null) {
           if (profile.is_playing === true) {
-            setName(profile.item.name);
-            writeData(profile.item.name);
+            if (song === "Cannot fetch song!")
+              setName();
+              writeData();
 
           }
           else {
             setName("Nothing is currently playing.")
-            getUsers();
+            //getUsers();
           }
         }
 
 
         else {
+          writeData();
           setName("Nothing is currently playing.")
-          getUsers();
+          //getUsers();
         }
+
+
       }
     };
 
@@ -87,29 +100,84 @@ const MainComponent = () => {
 
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refresh();
+    }, 2000);
+
+    return () => clearInterval(interval);
+  });
+
   function writeData(currentPlayingSong) {
 
+    updatePosition();
+    if (song === "Cannot fetch song!") {
+      return;
+    }
 
-    console.log(email);
-    const db = getDatabase();
-    set(ref(db, "users/" + uid), {
+    console.log("Song " + song);
+    const database = getDatabase();
+
+    // User data to be added or updated
+    const user = {
       userName: email,
-      currentSong: currentPlayingSong,
+      currentSong: song,
       latitude: latitude,
-      longitude: longitude
-    });
+      longitude: longitude,
+      artists: artists
+    };
+
+    // Reference to the user's location in the database
+    console.log(uid);
+    const userRef = ref(database, 'users/' + uid);
+
+    // Check if the user already exists
+    get(userRef)
+      .then(snapshot => {
+        if (snapshot.exists()) {
+          // User exists, update the existing user's information
+          update(userRef, user)
+            .then(() => {
+              console.log("User information updated successfully");
+            })
+            .catch(error => {
+              console.error("Error updating user information:", error);
+            });
+        } else {
+          // User doesn't exist, add a new user using push()
+          const newUserRef = ref(database, 'users/' + uid);
+          set(newUserRef, user)
+            .then(() => {
+              console.log("New user added successfully");
+            })
+            .catch(error => {
+              console.error("Error adding new user:", error);
+            });
+        }
+      })
+      .catch(error => {
+        console.error("Error checking user existence:", error);
+      });
+
+    // set(ref(db, "users/" + uid), {
+    //   userName: email,
+    //   currentSong: song,
+    //   latitude: latitude,
+    //   longitude: longitude,
+    //   artists: artists
+    // });
   }
 
   const getUsers = async () => {
     const db = getDatabase();
-
+    updatePosition();
     const usersRef = ref(db, 'users');
     get(usersRef).then((snapshot) => {
       if (snapshot.exists()) {
         const users = snapshot.val();
         console.log(users);
-        const closest = findClosestUsers(latitude, longitude, users, 500);
-        console.log("closests: " + closest[0]);
+        const closest = findClosestUsers(latitude, longitude, users, 1000);
+        //console.log("closests: " + closest[0].artists);
         setUsers(closest);
 
       }
@@ -135,6 +203,7 @@ const MainComponent = () => {
 
 
   const refresh = async () => {
+    updatePosition();
     if (currentAccessToken === "") {
       await getAccessToken(clientID, code);
     }
@@ -142,23 +211,22 @@ const MainComponent = () => {
 
     if (profile !== null) {
       if (profile.is_playing === true) {
-        setName(profile.item.name);
-        writeData(profile.item.name);
+        //setName(profile.item.name);
+        writeData();
         getUsers();
       }
       else {
-        getUsers();
         setName("Nothing is currently playing.")
       }
     }
 
 
     else {
+      writeData();
       getUsers();
       setName("Nothing is currently playing.")
     }
 
-    console.log("users: " + users[0].user);
 
   }
 
@@ -172,7 +240,7 @@ const MainComponent = () => {
     params.append("client_id", clientId);
     params.append("response_type", "code");
     params.append("redirect_uri", redirectURL);
-    params.append("scope", "user-read-private user-read-email user-read-currently-playing user-read-recently-played");
+    params.append("scope", "user-read-private user-read-email user-read-currently-playing user-read-recently-played user-top-read");
     params.append("code_challenge_method", "S256");
     params.append("code_challenge", challenge);
 
@@ -224,16 +292,40 @@ const MainComponent = () => {
     return access_token;
   }
 
+
   async function fetchProfile() {
+    console.log("at fetch profile");
     const token = localStorage.getItem("accessToken");
     const result = await fetch("https://api.spotify.com/v1/me/player/currently-playing", {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` }
     });
+    console.log(result);
     if (result.status === 204) {
+      setSong("Nothing is currently playing");
       return null;
     }
-    return await result.json();
+
+    const currentPlaying = await result.json();
+    console.log("here!");
+    //console.log(currentPlaying.item.name);
+
+    const artistsTop = await fetch("https://api.spotify.com/v1/me/top/artists?limit=3", {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    const artistTopJson = await artistsTop.json();
+    setArtists(artistTopJson.items);
+    console.log(artistTopJson);
+    if (result.status === 200) {
+      if (currentPlaying.is_playing === true) {
+        setSong(currentPlaying.item.name);
+
+      }
+    }
+
+    return currentPlaying;
   }
 
   function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -261,8 +353,9 @@ const MainComponent = () => {
       //console.log(database[person]);
       const distance = calculateDistance(userLat, userLon, database[person].latitude, database[person].longitude);
       //console.log("distance: " + distance);
+      console.log("distance; " + distance);
       if (distance <= radius) {
-        distances.push({ user: database[person].userName, distance: distance, song: database[person].currentSong });
+        distances.push({ user: database[person].userName, distance: distance, song: database[person].currentSong, artists: database[person].artists });
       }
     }
 
@@ -284,12 +377,24 @@ const MainComponent = () => {
     <div className="box">
       <div className="list-container">
         <ul className="list">
-          {users.map(item => {
-            console.log(item[0]); // Log the userName to the console
-            return (
-              <li key={item.id}>{item.user} {" "} {item.song}</li>
-            );
-          })}
+          {users.length > 0 ? (
+            users.map((item) => (
+              <li key={item.id} className="wrapper">
+                <h3 className="infoStyle">{item.user}</h3>
+                <p className="infoStyle">{"Listening to: "}{item.song}</p>
+                <p className="infoStyle">
+                  {item.artists.map((artist, index) => (
+                    <span key={index}>
+                      {artist.name}
+                      {index !== item.artists.length - 1 && ","}
+                    </span>
+                  ))}
+                </p>              
+              </li>
+            ))
+          ) : (
+            <p>No users available.</p>
+          )}
         </ul>
 
       </div>
