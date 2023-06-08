@@ -1,5 +1,5 @@
 .container {
-    margin-top: 235px !important;
+    margin-top: 335px !important;
     margin-bottom: 294px !important;
     max-width: 500px;
     margin: 0 auto;
@@ -7,6 +7,7 @@
     padding: 50px;
     border-radius: 15px;
     box-shadow: 10 10 100px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
   }
   
   h1 {
@@ -47,9 +48,8 @@
   }
   
   .button {
-    margin-top: 15px;
-    margin-left:10px ;
-    margin-right:10px;
+    top: 498px;
+    right: 690px ;
     width: 120px;
     height: 40px;
     border: none;
@@ -61,6 +61,19 @@
     transition: all 0.3s ease;
   }
   
+  .button2 {
+    top: 200px;
+    right: 600px ;
+    width: 120px;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    background-color: #00ff33c7;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
   .button:hover {
     transform: scale(1.1);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);

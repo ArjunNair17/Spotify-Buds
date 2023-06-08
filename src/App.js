@@ -16,17 +16,21 @@ export default function App() {
     //     }
     // })
     useEffect(() => {
+
         if(localStorage.getItem("loggedIn") === "true") {
             console.log("successful");
             return;
         }
         else {
-
+    
             localStorage.setItem("loggedIn", "false");
         }
+        
 
-    }, []);
+    });
 
+    
+    
 
  return (
  <div>

@@ -108,13 +108,13 @@ export default function Search() {
                                     <span>{result.userName}</span>
                                 ) : (
                                     <div>
-                                        <span>Username: {result.userName}</span>
-                                        <p></p>
-                                        <span>Current Song: {result.currentSong}</span>
-                                        <p></p>
-                                        <span>
+                                        <li>Username: {result.userName}</li>
+                                      
+                                        <li>Current Song: {result.currentSong}</li>
+                                     
+                                        <li>
                                             Top Artists: {result.artists.map((artist) => artist.name).join(', ')}
-                                        </span>
+                                        </li>
                                     </div>
                                 )}
                             </li>
