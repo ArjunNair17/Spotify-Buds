@@ -398,10 +398,8 @@ const MainComponent = () => {
 
   return (
     <div className="box">
-        
-      
+        <div className="text">Users Near Me</div>
       <div className="list-container">
-      <h1>Users Near Me:</h1>
         <ul className="list">
           {users.length > 0 ? (
             users.map((item) => (
@@ -425,7 +423,7 @@ const MainComponent = () => {
         </ul>
 
       </div>
-      <button onClick={() => refresh()}>Refresh</button>
+      <button className="button" onClick={() => refresh()}>Refresh</button>
     </div>
   );
 

@@ -127,7 +127,7 @@ class Discover extends React.Component {
     return (
       
       <div className="App">
-        <h1 className="spotifyBudsHeader">SpotifyBuds</h1>
+        
         <h2 className="text">Buds around you</h2>
         <div id="mapCanvas" style={{ height: "700px" }}></div>
       </div>

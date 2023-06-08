@@ -10,7 +10,8 @@ import MainComponent from '../spotify';
 
 export default function Main() {
     return (
-    
+    <div>
+        <h1>SpotifyBuds</h1>
     <Router>
         <div className="main-body">
             
@@ -22,5 +23,6 @@ export default function Main() {
             </Routes>
         </div>
     </Router>
+    </div>
     )
 }

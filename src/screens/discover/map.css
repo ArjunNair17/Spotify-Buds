@@ -1,7 +1,9 @@
 .App {
-    transform: translate(5%, -5%) !important;
-     margin-right: 10%;
+    position:absolute;
+    margin-top:-55% ;
+     margin-left: 18%;
     width: 80%;
+    height:0%;
      border-radius: 10px !important;
      color: rgb(0, 0, 0);
      background-color: cornflowerblue;
