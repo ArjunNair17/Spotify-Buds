@@ -2,7 +2,6 @@
   text-align: center;
 }
 
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -13,23 +12,7 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-.NavigationBar {
-  width:100%;
-  background:black;
-  opacity:0.5;
-  color:white;
-  position:fixed;
-  top: 0;
-}
-.signupbar {
-    margin-top: 25px !important;
-    margin-bottom: 5px;
-    width: 85% !important;
-  padding: 8px;
-  border: 1px solid #ffffff !important;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
