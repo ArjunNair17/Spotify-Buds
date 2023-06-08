@@ -5,6 +5,9 @@
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [Features](#features)
+* [Code Examples](#code-examples)
+* [Contributing](#contributing)
+
 
 ## General info
 Have you ever wondered what people around you are listening to? Have you wanted to approach someone and strike up a conversation about music? SpotifyBuds is a location-based social finder app that lets you meet new friends in your vicinity and acquire new music tastes.
@@ -25,7 +28,12 @@ $ npm install firebase
 $ npm install react-icon
 $ npm install react-router-dom
 $ npm start
+
 ```
+# Important
+It is important to note that Spotify API requires that any potential users of their API must be added to Spotify API's allowlist
+* Example: johnDoe@gmail.com 
+
 ## Features
 This app has the following unique features:
 
@@ -101,7 +109,7 @@ Thank you for considering contributing to the SpotifyBuds project! We welcome an
 
 # Setting up the Development Environment
 
-To set up the development environment for SpotifyBuds, please follow these steps:
+To set up the development environment for SpotifyBuds and make the app on your own, please follow these steps:
 
 * Clone the repository to your local machine using the following command:
 * Navigate to the project's root directory:
