@@ -398,10 +398,10 @@ const MainComponent = () => {
 
   return (
     <div className="box">
-      
         
       
       <div className="list-container">
+      <h1>Users Near Me:</h1>
         <ul className="list">
           {users.length > 0 ? (
             users.map((item) => (
