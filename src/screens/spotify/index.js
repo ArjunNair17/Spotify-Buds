@@ -318,6 +318,7 @@ const MainComponent = () => {
     });
 
     const artistTopJson = await artistsTop.json();
+    setArtists(artistTopJson.items);
     if (result.status === 204) {
         setSong("Nothing is currently playing");
         return null;
@@ -326,7 +327,7 @@ const MainComponent = () => {
     const currentPlaying = await result.json();
 
 
-    setArtists(artistTopJson.items);
+    
 
     if (result.status === 200) {
       if (currentPlaying.is_playing === true) {

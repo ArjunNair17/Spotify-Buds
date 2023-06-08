@@ -1,6 +1,6 @@
 .App {
     position:absolute;
-    margin-top:-55% ;
+    margin-top:-45% ;
      margin-left: 18%;
     width: 80%;
     height:0%;
@@ -8,7 +8,9 @@
      color: rgb(0, 0, 0);
      background-color: cornflowerblue;
    }
-   
+   .text{
+    color:rgb(5, 65, 30);
+   }
    .bColor{
      width: calc(100% - 100px);
      height: 100%;

@@ -129,7 +129,7 @@ class Discover extends React.Component {
       <div className="App">
         
         <h2 className="text">Buds around you</h2>
-        <div id="mapCanvas" style={{ height: "700px" }}></div>
+        <div id="mapCanvas" style={{ height: "600px" }}></div>
       </div>
       
     );
