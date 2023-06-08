@@ -311,27 +311,31 @@ const MainComponent = () => {
       headers: { Authorization: `Bearer ${token}` }
     });
 
+    console.log(result);
     const artistsTop = await fetch("https://api.spotify.com/v1/me/top/artists?limit=3", {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` }
     });
 
     const artistTopJson = await artistsTop.json();
+    if (result.status === 204) {
+        setSong("Nothing is currently playing");
+        return null;
+    }
+
     const currentPlaying = await result.json();
 
+
     setArtists(artistTopJson.items);
-    console.log(artistTopJson);
+
     if (result.status === 200) {
       if (currentPlaying.is_playing === true) {
         setSong(currentPlaying.item.name);
 
       }
     }
-    console.log(result);
-    if (result.status === 204) {
-      setSong("Nothing is currently playing");
-      return null;
-    }
+    
+
 
     if(currentPlaying.is_playing === false) {
       setSong("Nothing is Currently Playing!");
@@ -339,6 +343,7 @@ const MainComponent = () => {
     }
     console.log(currentPlaying);
     //console.log(currentPlaying.item.name);
+    
 
     
     
