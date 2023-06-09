@@ -438,13 +438,13 @@ const MainComponent = () => {
                                 <p className="infoStyle">{"Listening to: "}{item.song}</p>
                                 <p className="infoStyle">{item.user === email ? "" : "Distance away: " + item.distance + " feet"}</p>
                                 { <p className="infoStyle">{"Top Artists: "}
-                  {item.artists.length > 0 ? item.artists.map((artist, index) => (
+                  {item.artists.map((artist, index) => (
                     <span key={index}>
                       {artist.name}
                       {index !== item.artists.length - 1 && ", "}
                     </span>
-                  )) : null}
-                </p>               }
+                  )) }
+                </p>              }
                             </li>
                         ))
                     ) : (
