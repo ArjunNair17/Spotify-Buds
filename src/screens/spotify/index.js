@@ -65,6 +65,7 @@ const MainComponent = () => {
                 }
 
 
+               
                 const profile = await fetchProfile();
                 writeData();
                 getUsers();
@@ -109,7 +110,7 @@ const MainComponent = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             refresh();
-        }, 2000);
+        }, 500);
 
         return () => clearInterval(interval);
     });
@@ -117,11 +118,7 @@ const MainComponent = () => {
     function writeData(currentPlayingSong) {
 
         updatePosition();
-        if (song === "Cannot fetch song!") {
-            return;
-        }
-
-        console.log("Song " + song);
+      
         const database = getDatabase();
 
         
@@ -179,6 +176,14 @@ const MainComponent = () => {
     const getUsers = async () => {
         const db = getDatabase();
         updatePosition();
+        const myUserRef = ref(db, 'users/'+uid);
+        get(myUserRef).then((snapshot) => {
+            if(snapshot.exists()) {
+                const user = snapshot.val();
+                //setSong(user.currentSong);
+
+            }
+        });
         const usersRef = ref(db, 'users');
         get(usersRef).then((snapshot) => {
             if (snapshot.exists()) {
@@ -333,19 +338,23 @@ const MainComponent = () => {
         if (result.status === 200) {
             
             if (currentPlaying.is_playing === true) {
-                setSong(currentPlaying.item.name);
-                setCurrentArtists(currentPlaying.item.artists);
+                if(currentPlaying.item !== null) {
+                    setSong(currentPlaying.item.name);
+                }
+                
 
+            }
+
+            if (currentPlaying.is_playing === false) {
+                //setSong("Nothing is Currently Playing!");
+                return null;
             }
         }
         
 
 
-        if (currentPlaying.is_playing === false) {
-            //setSong("Nothing is Currently Playing!");
-            return null;
-        }
-        console.log(currentPlaying);
+        
+        
         //console.log(currentPlaying.item.name);
 
 
@@ -409,16 +418,18 @@ const MainComponent = () => {
 
 
     return (
+        
         <div className="box">
             <div className="text">Users Near Me</div>
-            
+
          <article class = "grid">
+
             <div className="list-container">
                 <ul className="list">
                     {users.length > 0 ? (
                         users.map((item) => (
                             <li key={item.id} className="wrapper">
-                                <h3 className="infoStyle">{item.user === email ? 'Me' : item.user}</h3>
+                                <h3 className="infoStyle">{item.user === email ? "Me" : item.user}</h3>
                                 <p className="infoStyle">{"Listening to: "}{item.song}</p>
                                 <p className="infoStyle">{item.user === email ? "" : "Distance away: " + item.distance + " feet"}</p>
                                 { <p className="infoStyle">{"Top Artists: "}
@@ -439,10 +450,10 @@ const MainComponent = () => {
                 
             </div>
             <button className="button" onClick={() => refresh()}>Refresh</button>
+              
          </article>
 
 
-            
             
         <div className="radius">
             <label htmlFor="radius">Select radius in feet:</label>
@@ -455,6 +466,7 @@ const MainComponent = () => {
                 <option value="100000">100000</option>
             </select>
         </div>
+        
         </div>
     );
 

@@ -117,6 +117,8 @@
     margin-right:10px; */
     /* width: 120px;
     height: 40px; */
+    position:relative;
+    top:1000px;
     justify-content: center;
     border: none;
     border-radius: 20px;
@@ -147,4 +149,8 @@
 
   .radius{
     margin-top: 50%;
+  }
+
+  .body {
+    overflow: hidden;
   }

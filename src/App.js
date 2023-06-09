@@ -6,36 +6,28 @@ import { useState, useEffect } from "react";
 export default function App() {
 
     const [loggedIn, setLogin] = useState(false);
-    // const auth = getAuth();
-    // auth.onAuthStateChanged((user) => {
-    //     if(user) {
-    //         setLogin(true);
-    //     }
-    //     else {
-    //         setLogin(false);
-    //     }
-    // })
-    useEffect(() => {
 
-        if(localStorage.getItem("loggedIn") === "true") {
-            console.log("successful");
-            return;
+
+    useEffect(() => {
+        const auth = getAuth();
+        if(auth.currentUser) {
+            console.log("user is logged in");
+            setLogin(true)
         }
         else {
-    
-            localStorage.setItem("loggedIn", "false");
+            console.log("user is not logged in");
+            setLogin(false);
         }
-        
-
     });
-
     
+
+    console.log(loggedIn);
     
 
  return (
  <div>
-    {localStorage.getItem("loggedIn") === "true" ?  null: <SignUpForm callback={setLogin}></SignUpForm>}
     <Main></Main>
+    
 
  </div>
  );

@@ -90,18 +90,20 @@ export default function Search() {
     return (
         <article class="grid">
         <div>
-            <div>
+            <div className="search-wrapper">
                 {/* <select value={searchOption} onChange={handleSearchOptionChange}>
                     <option value="">Select an option</option>
                     <option value="artist">Search for artist</option>
                     <option value="user">Search for user</option>
                     <option value="song">Search for song</option>
                 </select> */}
+
                 <h1 class="header">Search for a SpotifyBud</h1>
                 <input className="bar" type="text" value={searchText} onChange={handleSearchTextChange} />
                 <button className="searchButton" onClick={handleSearch}>Search</button>
+
             </div>
-            <div className="results">
+            <div className="cards">
                 {searchResults.length > 0 ? (
                     <ul>
                         {searchResults.map((result) => (
