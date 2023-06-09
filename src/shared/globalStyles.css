@@ -1,6 +1,0 @@
-.screen-container{
-    width: /*calc(100% - 100px)*/100vw;
-    height: 100vh;
-    background-color:cornflowerblue; 
-    border-radius: 50px;
-}
