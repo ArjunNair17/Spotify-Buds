@@ -88,6 +88,7 @@ export default function Search() {
     };
 
     return (
+        <article class="grid">
         <div>
             <div>
                 {/* <select value={searchOption} onChange={handleSearchOptionChange}>
@@ -96,8 +97,9 @@ export default function Search() {
                     <option value="user">Search for user</option>
                     <option value="song">Search for song</option>
                 </select> */}
+                <h1 class="header">Search for a SpotifyBud</h1>
                 <input className="bar" type="text" value={searchText} onChange={handleSearchTextChange} />
-                <button className="button" onClick={handleSearch}>Search</button>
+                <button className="searchButton" onClick={handleSearch}>Search</button>
             </div>
             <div className="results">
                 {searchResults.length > 0 ? (
@@ -125,5 +127,6 @@ export default function Search() {
                 )}
             </div>
         </div>
+        </article>
     );
 }

@@ -1,70 +1,146 @@
-# Getting Started with Create React App
+# SpotifyBuds: Make Friends With Similar Music Intrests
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of contents
+* [General info](#general-info)
+* [Technologies](#technologies)
+* [Setup](#setup)
+* [Features](#features)
+* [Code Examples](#code-examples)
+* [Contributing](#contributing)
 
-## Available Scripts
 
-In the project directory, you can run:
+## General info
+Have you ever wondered what people around you are listening to? Have you wanted to approach someone and strike up a conversation about music? SpotifyBuds is a location-based social finder app that lets you meet new friends in your vicinity and acquire new music tastes.
+  
+## Technologies
+Project is created with:
+* Firebase CLI v11.4.0.
+* React 18.2.0
+* Google API 2021-12
+* Spotify API Version 3.202.356
+  
+## Setup
+To run this project, install it locally using npm:
 
-### `npm start`
+```
+$ npm install
+$ npm install firebase
+$ npm install react-icon
+$ npm install react-router-dom
+$ npm start
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
+# Important
+It is important to note that Spotify API requires that any potential users of their API must be added to Spotify API's allowlist
+* Example: johnDoe@gmail.com 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
+This app has the following unique features:
 
-### `npm test`
+* Allows users to login (saves and stores user API data)
+* Displays pings of users near you and relevant information on google maps
+* Displays real time, changing music information about users in an n feet radius around you.
+* Allows users to search for friends even is they arent in their vacinity.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Code examples
+Finding closest users for location feature
 
-### `npm run build`
+```
+function findClosestUsers(userLat, userLon, database, n) {
+  // Create an array to store distances
+  const distances = [];
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  // Calculate distance from user to each user in the database
+  for (const person of database) {
+    const distance = calculateDistance(userLat, userLon, person.lat, person.lon);
+    distances.push({ user: person.name, distance: distance });
+  }
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  // Sort distances in ascending order
+  distances.sort((a, b) => a.distance - b.distance);
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  // Get the closest n users
+  const closestUsers = distances.slice(0, n);
 
-### `npm run eject`
+  return closestUsers;
+}
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Haversine Formula to covert Longitude and Latitude into feet
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+function toRadians(degrees) {
+  return degrees * (Math.PI / 180);
+}
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  const earthRadiusInFeet = 20903520; // Approximate Earth radius in feet
+  const dLat = toRadians(lat2 - lat1);
+  const dLon = toRadians(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distanceInFeet = earthRadiusInFeet * c;
+  return distanceInFeet;
+}
+```
+Parse data from Database
+```
+ const fetchUserData = () => {
+   const db = getDatabase();
+   const usersRef = ref(db, "users");
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+   onValue(usersRef, (snapshot) => {
+     const userData = snapshot.val();
+     if (userData) {
+       const markers = Object.values(userData).map((user) => {
+         const { latitude, longitude, currentSong, artists } = user;
+         console.log("user: ", user);
+         return [`${user.userName}'s Location`, latitude, longitude, currentSong, artists];
+       })
+     }
+   })
+ }
+```
+## Contributing
+Thank you for considering contributing to the SpotifyBuds project! We welcome any contributions that can help improve the app and enhance the user experience. To ensure a smooth collaboration, please review the following guidelines before making any contributions.
 
-## Learn More
+# Setting up the Development Environment
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To set up the development environment for SpotifyBuds and make the app on your own, please follow these steps:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* Clone the repository to your local machine using the following command:
+* Navigate to the project's root directory:
+* Install the required dependencies using npm:
+* Create a Firebase project and obtain the necessary configuration credentials (API key, project ID, etc.).
+* Create a .env file in the project's root directory and add the Firebase configuration credentials in the following format:
+```
+REACT_APP_FIREBASE_API_KEY=your-api-key
+REACT_APP_FIREBASE_PROJECT_ID=your-project-id
+```
+* Start the development server:
 
-### Code Splitting
+```
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Open your browser and navigate to http://localhost:3000 to access SpotifyBuds locally.
 
-### Analyzing the Bundle Size
+# Contribution Guidelines
+To contribute to the project, please adhere to the following guidelines:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+* Create a new branch for each contribution or bug fix:
 
-### Making a Progressive Web App
+```
+git checkout -b my-contribution
+```
+* Make sure your code follows the project's coding style and conventions.
+* Write clear and concise commit messages that describe the purpose of your changes.
+* Include appropriate tests for your contributions to maintain code quality.
+* Push your changes to your forked repository and create a pull request against the main repository's master branch.
+* Provide a detailed description of your changes in the pull request, explaining the problem you're addressing and the proposed solution.
+* Be responsive to any feedback or suggestions provided during the review process.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+We appreciate your effort and value your contributions to making SpotifyBuds even better! Together, let's create an amazing music discovery platform.

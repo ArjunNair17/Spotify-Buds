@@ -330,12 +330,6 @@ const MainComponent = () => {
 
         const currentPlaying = await result.json();
 
-
-
-
-
-
-
         if (result.status === 200) {
             
             if (currentPlaying.is_playing === true) {

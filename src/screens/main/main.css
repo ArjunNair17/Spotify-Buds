@@ -6,3 +6,8 @@
     display: flex;
 }
 
+.header {
+    margin-left: 20px; /* Adjust the margin as needed */
+    color: blue; /* Change the color to your desired value */
+  }
+  

@@ -1,4 +1,4 @@
-.App {
+/* .App {
     text-align: center;
     align-self: center;
     width: 1000px;
@@ -124,4 +124,114 @@
     justify-content: center;
   align-items: center;
   min-height: 100vh;
+  } */
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    position: fixed; /* Set the container to a fixed position */
+    top: 0; /* Position it at the top of the viewport */
+    left: 0; /* Position it at the left of the viewport */
   }
+  
+  .grid {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    position: fixed; /* Set the grid to a fixed position */
+    top: 0; /* Position it at the top of the viewport */
+    right: 500px; /* Adjust the right position as needed */
+  }
+  
+  .searchButton {
+    padding: 8px 16px;
+    background-color: #4caf50;
+    color: white;
+    font-size: 16px;
+    align-items: center;
+    font-family: "Comic Sans";
+    place-items: center;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle !important;
+    line-height: normal;
+    margin-left: 10px; /* Increase this value to shift the button further to the right */
+  }
+  .header {
+    text-align: center;
+    font-weight: bold;
+    font-family: "Comic Sans MS", cursive;
+    color: green;
+    position: fixed; /* Set the header to a fixed position */
+    top: 0; /* Position it at the top of the viewport */
+    left: 50%; /* Position it in the middle horizontally */
+    transform: translateX(-50%); /* Center it horizontally */
+  }
+  
+  /* Rest of the CSS code remains the same */  
+  
+  
+  .searchButton:hover {
+    background-color: #45a049;
+  }
+
+  .header {
+    text-align: center;
+    font-weight: bold;
+    font-family: "Comic Sans MS", cursive;
+    color: green;
+  }  
+  
+  .results {
+    margin-top: 16px;
+  }
+  
+  .results ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .bar {
+    width: 80%;
+    padding: 8px;
+    margin: 0 auto;
+    font-size: 20px; /* Increase the font size */
+    text-align: center;
+    display: flex;
+    transform: translateX(-50%);
+    justify-content: center;
+    align-items: center;
+    font-family: "Comic Sans"; /* Set the font to Comic Sans */
+    border: 2px solid black; /* Add a black border */
+  }
+  
+  
+  .results li {
+    background-color: black;
+    color: white;
+    padding: 16px;
+    text-align: center;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    font-family: "Comic Sans";
+    transition: box-shadow 0.3s ease;
+    font-size: 20px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5); /* Add a box shadow */
+  }
+  
+  .results li:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 1.0); /* Increase the box shadow on hover */
+  }  
+  
+  .results li span {
+    font-weight: bold;
+  }
+  
+  .results li div li {
+    margin-bottom: 4px;
+  }
+  
