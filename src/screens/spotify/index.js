@@ -116,7 +116,7 @@ const MainComponent = () => {
 
     function writeData(currentPlayingSong) {
 
-        if(song === "Cannot fetch Song!") {
+        if(song === "Cannot fetch song!") {
             return;
         }
         updatePosition();
