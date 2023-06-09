@@ -442,7 +442,7 @@ const MainComponent = () => {
                   {item.artists.map((artist, index) => (
                     <span key={index}>
                       {artist.name}
-                      {index !== item.artists.length - 1 && ","}
+                      {index !== item.artists.length - 1 && ", "}
                     </span>
                   ))}
                 </p>               }

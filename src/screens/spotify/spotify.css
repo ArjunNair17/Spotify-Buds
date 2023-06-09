@@ -13,20 +13,22 @@
     border: black;
     border-width: 10px;
     width: 550px;
-    height: 50%; /* Set the desired height of the scrollable area */
+    height: 75%; /* Set the desired height of the scrollable area */
     overflow-y: auto; /* Enable vertical scrolling */
+    font-family: "Merryweather", serif;
   }
   
   .text{
-    color:rgb(5, 65, 30);
+    color:rgb(0, 148, 62);
     font-size: 50px;
     position:absolute;
-    margin-top: -30%;
-    margin-left: -15%;
+    margin-top: -43%;
+    margin-left: -5%;
     font-weight: bold;
+    font-family: "Merryweather", serif;
   }
   .Profile{
-    border: 100px black;
+    border: 100px rgb(0, 0, 0);
     transform: translate(100%, 50%);
     width: 300px;
     height: 200px;
@@ -35,6 +37,8 @@
   .list {
     list-style-type: none;
     padding: 0;
+    font-family: "Merryweather", serif;
+
     /* margin:0; */
   }
   
@@ -46,7 +50,7 @@
   }
   
   .wrapper{
-    border: 5px solid rgb(5, 65, 30);
+    border: 5px solid rgb(0, 255, 106);
     border-radius: 10px;
     padding: 10px;
     margin-bottom: 10px;
@@ -54,7 +58,8 @@
   
   .infoStyle{
     color: white;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Merryweather", serif;
+    text-align: middle;
   }
 
 
@@ -147,9 +152,16 @@
   min-height: 100vh;
   }
 
-  .radius{
-    margin-top: 25%;
-    margin-right:0%;
+  .radius {
+    position: absolute;
+    bottom: 0%; /* Adjust the value to position it at the desired vertical position */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 35px; /* Increase the font size */
+    font-family: "Merryweather", serif;
+    margin-left: 15px;
+    color: #008616;
+    font-weight: bold;
   }
 
   body {
