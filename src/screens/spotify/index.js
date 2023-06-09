@@ -426,7 +426,7 @@ const MainComponent = () => {
     return (
         
         <div className="box">
-            <div className="text">Users Near Me</div>
+            <div className="text">Buds Near Me</div>
 
          <article class = "grid">
 
@@ -461,7 +461,7 @@ const MainComponent = () => {
          </article>
 
          <div className="radius">
-            <label htmlFor="radius">Select radius in feet:</label>
+            <label htmlFor="radius">Select radius in feet: </label>
             <select id="radius" value={radius} onChange={handleRadiusChange}>
                 <option value="50">50</option>
                 <option value="100">100</option>

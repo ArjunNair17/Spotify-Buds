@@ -15,17 +15,15 @@
     width: 550px;
     height: 75%; /* Set the desired height of the scrollable area */
     overflow-y: auto; /* Enable vertical scrolling */
-    font-family: "Merryweather", serif;
   }
   
   .text{
-    color:rgb(0, 148, 62);
+    color: rgb(0, 0, 0);
     font-size: 50px;
     position:absolute;
     margin-top: -43%;
     margin-left: -5%;
     font-weight: bold;
-    font-family: "Merryweather", serif;
   }
   .Profile{
     border: 100px rgb(0, 0, 0);
@@ -37,7 +35,6 @@
   .list {
     list-style-type: none;
     padding: 0;
-    font-family: "Merryweather", serif;
 
     /* margin:0; */
   }
@@ -50,15 +47,14 @@
   }
   
   .wrapper{
-    border: 5px solid rgb(0, 255, 106);
+    border: 5px solid greenyellow;
     border-radius: 10px;
     padding: 10px;
     margin-bottom: 10px;
   }
   
   .infoStyle{
-    color: white;
-    font-family: "Merryweather", serif;
+    color: rgb(255, 255, 255);
     text-align: middle;
   }
 
@@ -158,9 +154,8 @@
     left: 50%;
     transform: translateX(-50%);
     font-size: 35px; /* Increase the font size */
-    font-family: "Merryweather", serif;
     margin-left: 15px;
-    color: #008616;
+    color: rgb(0, 0, 0);
     font-weight: bold;
   }
 

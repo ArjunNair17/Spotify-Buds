@@ -68,7 +68,7 @@ export default function SignUpForm( {callback}) {
         <div className="RestofPage">
         <article className = "grid">
         <div className="container">
-            <h1>SpotifyBuds</h1>
+  <h1 className="headergamertag">SpotifyBuds</h1>
             <form height="100px">
                 <input type="email" placeholder="Username" value={email} className="signupbar" onChange={(event) => setEmail(event.target.value)}></input>
                 
