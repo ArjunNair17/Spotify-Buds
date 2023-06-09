@@ -13,6 +13,9 @@ export default function Main() {
     <div>
         <h1>SpotifyBuds</h1>
     <Router>
+        <Routes>
+             <Route path ="/" element = {<SignUpForm></SignUpForm>}/>
+        </Routes>
         <div className="main-body">
             
             <Sidebar />

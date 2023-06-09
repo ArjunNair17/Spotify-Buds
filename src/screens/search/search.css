@@ -15,10 +15,17 @@
     height: 40vmin;
     pointer-events: none;
   }
-  .results{
-    margin-left: 200% !important;
-    width: 175px !important;
-    height: 300px;
+  .search-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.25rem;
+    margin-top: 1rem;
+
   }
   @media (prefers-reduced-motion: no-preference) {
     .App-logo {

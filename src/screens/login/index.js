@@ -77,9 +77,6 @@ export default function SignUpForm( {callback}) {
                 <button className="button2" onClick= {(event) => handleLogIn(event)}>Log In</button>
             </form>
         </div>
-        <div className="RestofPage">
-        
       </div>
-        </div>
     );
 }
