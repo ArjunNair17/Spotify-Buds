@@ -1,4 +1,4 @@
-import './Search.css'
+import './search.css'
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue } from "firebase/database";

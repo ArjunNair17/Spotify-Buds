@@ -18,6 +18,7 @@ const MainComponent = () => {
     const [longitude, setLongitude] = useState(0.0);
     const [users, setUsers] = useState([]);
     const [song, setSong] = useState("Cannot fetch song!");
+    const [currentArtist, setCurrentArtists] = useState(["Unknown"]);
     const [artists, setArtists] = useState([]);
     const [radius, setRadius] = useState(250);
     const updatePosition = () => {
@@ -122,6 +123,8 @@ const MainComponent = () => {
 
         console.log("Song " + song);
         const database = getDatabase();
+
+        
 
         // User data to be added or updated
         const user = {
@@ -319,12 +322,13 @@ const MainComponent = () => {
 
         const artistTopJson = await artistsTop.json();
         setArtists(artistTopJson.items);
+        
         if (result.status === 204) {
-            setSong("Nothing is currently playing");
+            //setSong("Nothing is currently playing");
             return null;
         }
 
-        
+        const currentPlaying = await result.json();
 
 
 
@@ -333,16 +337,18 @@ const MainComponent = () => {
 
 
         if (result.status === 200) {
+            
             if (currentPlaying.is_playing === true) {
                 setSong(currentPlaying.item.name);
+                setCurrentArtists(currentPlaying.item.artists);
 
             }
         }
-        const currentPlaying = await result.json();
+        
 
 
         if (currentPlaying.is_playing === false) {
-            setSong("Nothing is Currently Playing!");
+            //setSong("Nothing is Currently Playing!");
             return null;
         }
         console.log(currentPlaying);
@@ -374,14 +380,19 @@ const MainComponent = () => {
     }
 
     function findClosestUsers(userLat, userLon, database, radius) {
+        updatePosition();
         const distances = [];
         //onsole.log("Database: " + database);
         for (const person in database) {
             //console.log(database[person]);
-            const distance = calculateDistance(userLat, userLon, database[person].latitude, database[person].longitude);
+            var distance = calculateDistance(latitude, longitude, database[person].latitude, database[person].longitude);
             //console.log("distance: " + distance);
             console.log("distance; " + distance);
             if (distance <= radius) {
+                
+                if(database[person].userName === email) {
+                    distance = 0;
+                }
                 distances.push({ user: database[person].userName, distance: distance, song: database[person].currentSong, artists: database[person].artists, distance: distance });
             }
         }
@@ -406,31 +417,39 @@ const MainComponent = () => {
     return (
         <div className="box">
             <div className="text">Users Near Me</div>
+            
+         <article class = "grid">
             <div className="list-container">
                 <ul className="list">
                     {users.length > 0 ? (
                         users.map((item) => (
                             <li key={item.id} className="wrapper">
-                                <h3 className="infoStyle">{item.user}</h3>
+                                <h3 className="infoStyle">{item.user === email ? 'Me' : item.user}</h3>
                                 <p className="infoStyle">{"Listening to: "}{item.song}</p>
-                                <p className="infoStyle">{"Distance away: " + item.distance + " feet"}</p>
-                                {/* { <p className="infoStyle">
+                                <p className="infoStyle">{item.user === email ? "" : "Distance away: " + item.distance + " feet"}</p>
+                                { <p className="infoStyle">{"Top Artists: "}
                   {item.artists.map((artist, index) => (
                     <span key={index}>
                       {artist.name}
                       {index !== item.artists.length - 1 && ","}
                     </span>
                   ))}
-                </p>               } */}
+                </p>               }
                             </li>
                         ))
                     ) : (
                         <p>No users available.</p>
                     )}
                 </ul>
-
+            
+                
             </div>
             <button className="button" onClick={() => refresh()}>Refresh</button>
+         </article>
+
+
+            
+            
         <div className="radius">
             <label htmlFor="radius">Select radius in feet:</label>
             <select id="radius" value={radius} onChange={handleRadiusChange}>
@@ -439,6 +458,7 @@ const MainComponent = () => {
                 <option value="250">250</option>
                 <option value="500">500</option>
                 <option value="1000">1000</option>
+                <option value="100000">100000</option>
             </select>
         </div>
         </div>

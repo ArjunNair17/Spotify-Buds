@@ -9,7 +9,7 @@
   }
   
   .list-container {
-    margin-top: 10%;
+    /* margin-top: 10%; */
     border: black;
     border-width: 10px;
     width: 550px;
@@ -35,7 +35,7 @@
   .list {
     list-style-type: none;
     padding: 0;
-    margin:0;
+    /* margin:0; */
   }
   
   .list li {
@@ -107,13 +107,17 @@
   }
   
   .button {
-    position:absolute;
-    margin-top: 750px;
-    margin-left:10px ;
-    margin-right:10px;
-    margin-bottom: 100px;
-    width: 120px;
-    height: 40px;
+    
+    /* position:absolute;
+    
+    top: 50%;
+    left:50%;
+    translate: (-50%, -50%); */
+    /* margin-left:10px ;
+    margin-right:10px; */
+    /* width: 120px;
+    height: 40px; */
+    justify-content: center;
     border: none;
     border-radius: 20px;
     background-color: rgb(5, 65, 30);
@@ -122,7 +126,11 @@
     cursor: pointer;
     transition: all 0.3s ease;
   }
-  
+  .grid {
+    display:grid;
+    place-items:center;
+    
+  }
   .button:hover {
     transform: scale(1.1);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
