@@ -22,7 +22,7 @@ initializeApp(firebaseConfig);
 class Discover extends React.Component {
   componentDidMount() {
     this.fetchUserData();
-    this.interval = setInterval(this.getLocation, 10000);
+    this.interval = setInterval(this.getLocation, 120000);
   }
 
 
@@ -129,8 +129,6 @@ class Discover extends React.Component {
     return (
 
       <div className="App">
-
-        <h2 className="text">Buds around you</h2>
         <div id="mapCanvas" style={{ height: "600px" }}></div>
       </div>
 

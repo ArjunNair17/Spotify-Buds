@@ -1,3 +1,10 @@
+
+.container {
+  width: 80%; /* Adjust the width to make the page smaller */
+  height: 80%; /* Adjust the height to make the page smaller */
+  overflow: hidden;
+}
+
 .container {
     margin-top: 335px !important;
     margin-bottom: 294px !important;
@@ -33,7 +40,7 @@
   .signup-btn,
   .login-btn {
     display: block;
-    width: 100%;
+    width: 10%;
     padding: 10px;
     margin-bottom: 10px;
     background-color: #007bff;
@@ -113,6 +120,4 @@
   }
 
   
-  body {
-    overflow:hidden;
-  }
+ 

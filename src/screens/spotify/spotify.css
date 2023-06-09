@@ -106,6 +106,17 @@
   .login-btn:hover {
     background-color: #0056b3;
   }
+
+  .refreshButton {
+    margin-bottom:10px;
+    background: rgb(1, 63, 1);
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    width: 30%;
+  }
   
   .button {
     

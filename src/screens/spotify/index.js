@@ -67,8 +67,7 @@ const MainComponent = () => {
 
                
                 const profile = await fetchProfile();
-                // writeData();
-                // getUsers();
+                
                 //setToken(current);
                 // console.log(profile);
                 // if (profile !== null) {
@@ -117,6 +116,9 @@ const MainComponent = () => {
 
     function writeData(currentPlayingSong) {
 
+        if(song === "Cannot fetch Song!") {
+            return;
+        }
         updatePosition();
       
         const database = getDatabase();
@@ -176,14 +178,7 @@ const MainComponent = () => {
     const getUsers = async () => {
         const db = getDatabase();
         updatePosition();
-        const myUserRef = ref(db, 'users/'+uid);
-        get(myUserRef).then((snapshot) => {
-            if(snapshot.exists()) {
-                const user = snapshot.val();
-                //setSong(user.currentSong);
-
-            }
-        });
+        
         const usersRef = ref(db, 'users');
         get(usersRef).then((snapshot) => {
             if (snapshot.exists()) {
@@ -223,8 +218,9 @@ const MainComponent = () => {
         const profile = await fetchProfile();
 
         console.log(song);
-        writeData();
         getUsers();
+        writeData();
+       
 
         // if (profile !== null) {
         //   if (profile.is_playing === true) {
@@ -439,12 +435,12 @@ const MainComponent = () => {
                                 <p className="infoStyle">{"Listening to: "}{item.song}</p>
                                 <p className="infoStyle">{item.user === email ? "" : "Distance away: " + item.distance + " feet"}</p>
                                 { <p className="infoStyle">{"Top Artists: "}
-                  {item.artists.map((artist, index) => (
+                  {item.artists.length > 0 ? item.artists.map((artist, index) => (
                     <span key={index}>
                       {artist.name}
                       {index !== item.artists.length - 1 && ", "}
                     </span>
-                  ))}
+                  )) : null}
                 </p>               }
                             </li>
                         ))
@@ -455,7 +451,7 @@ const MainComponent = () => {
             
                 
             </div>
-            <button className="button" onClick={() => refresh()}>Refresh</button>
+            <button className="refreshButton" onClick={() => refresh()}>Refresh</button>
             
               
          </article>

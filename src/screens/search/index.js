@@ -88,18 +88,12 @@ export default function Search() {
     };
 
     return (
-        <div>
-            <div className="search-wrapper">
-                {/* <select value={searchOption} onChange={handleSearchOptionChange}>
-                    <option value="">Select an option</option>
-                    <option value="artist">Search for artist</option>
-                    <option value="user">Search for user</option>
-                    <option value="song">Search for song</option>
-                </select> */}
-                <input className="bar" type="text" onChange={(event) => {setSearchText(event.target.value); handleSearch();}} />
-                <button className="button" onClick={handleSearch}>Search</button>
-            </div>
-            <div className="cards">
+            <div>
+              <div>
+                <input className="bar" type="text" value={searchText} onChange={handleSearchTextChange} />
+                <button className="searchButton" onClick={handleSearch}>Search</button>
+              </div>
+            <div className="results">
                 {searchResults.length > 0 ? (
                     <ul>
                         {searchResults.map((result) => (

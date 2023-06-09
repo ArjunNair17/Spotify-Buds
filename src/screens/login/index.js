@@ -9,6 +9,7 @@ const redirectURL = "http://localhost:3000/main";
 
 
 export default function SignUpForm( {callback}) {
+  document.body.style.overflow= "hidden";
 
     async function redirectToAuthCodeFlow(clientId) {
         const verifier = generateCodeVerifier(128);
@@ -60,16 +61,16 @@ export default function SignUpForm( {callback}) {
     const handleSignUp = (event) => {
         event.preventDefault();
         const auth = getAuth();
-        createUserWithEmailAndPassword(auth, email, pwd).then((userCredential) => alert(userCredential.user)).catch((error) => {alert(error.message)});
+        createUserWithEmailAndPassword(auth, email, pwd).then((userCredential) => console.log(userCredential)).catch((error) => {alert(error.message)});
         setEmail("");
         setPwd("");        
     }
     return (
-        <div className="RestofPage">
+        
         <article className = "grid">
         <div className="container">
-  <h1 className="headergamertag">SpotifyBuds</h1>
-            <form height="100px">
+  <h1 className="headergamertag">User Authentication</h1>
+            <form>
                 <input type="email" placeholder="Username" value={email} className="signupbar" onChange={(event) => setEmail(event.target.value)}></input>
                 
                 <input type="password" placeholder="Password" value={pwd} className="signupbar" onChange={(event) => setPwd(event.target.value)}></input>
@@ -81,6 +82,6 @@ export default function SignUpForm( {callback}) {
         </div>
         </article>
        
-      </div>
+      
     );
 }
