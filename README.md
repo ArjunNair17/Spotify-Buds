@@ -144,3 +144,4 @@ git checkout -b my-contribution
 * Be responsive to any feedback or suggestions provided during the review process.
 
 We appreciate your effort and value your contributions to making SpotifyBuds even better! Together, let's create an amazing music discovery platform.
+

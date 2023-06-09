@@ -1,0 +1,123 @@
+
+.container {
+  width: 80%; /* Adjust the width to make the page smaller */
+  height: 80%; /* Adjust the height to make the page smaller */
+  overflow: hidden;
+}
+
+.container {
+    margin-top: 335px !important;
+    margin-bottom: 294px !important;
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    color: greenyellow;
+    padding: 50px;
+    border-radius: 15px;
+    box-shadow: 10 10 100px rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+  }
+  .headergamertag{
+    font-size: 30px;
+    color: greenyellow;
+    text-align: center;
+  }
+  
+  h1 {
+    color: greenyellow;
+    margin-bottom: 25px;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ed0101;
+    border-radius: 3px;
+  }
+  
+  .signup-btn,
+  .login-btn {
+    display: block;
+    width: 10%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #007bff;
+    color: #000000;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .login-btn {
+    background-color: #6c757d;
+  }
+  
+  .signup-btn:hover,
+  .login-btn:hover {
+    background-color: #0056b3;
+  }
+  .grid {
+    display: grid;
+    place-items: center;
+  }
+  
+  .button3 {
+    top: 200px;
+    left: 1000px ;
+    width: 120px;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    background-color: greenyellow;
+    color: #000000;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .button2 {
+    top: 200px;
+    left: 1000px ;
+    width: 120px;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    background-color: greenyellow;
+    color: #000000;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+  
+  .RestofPage{
+    background-color: #000000;
+    color:#000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  .signupbar {
+    width: 80%;
+    padding: 8px;
+    margin: 0 auto;
+    font-size: 20px;
+    text-align: center;
+    display: block;
+    margin: 0 auto; /* Center horizontally */
+    font-weight: bold;
+    color: black;
+  }
+
+  
+ 
