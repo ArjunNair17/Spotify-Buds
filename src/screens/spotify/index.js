@@ -320,7 +320,10 @@ const MainComponent = () => {
             method: "GET",
             headers: { Authorization: `Bearer ${token}` }
         });
-
+        
+        if(result.status === 503 || artistsTop.result === 503) {
+            return null;
+        }
         const artistTopJson = await artistsTop.json();
         setArtists(artistTopJson.items);
         

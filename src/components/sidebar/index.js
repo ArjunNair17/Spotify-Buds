@@ -11,7 +11,7 @@ export default function Sidebar() {
   return (
     <div className="sidebar-container">
       <img 
-        src="https://lh3.googleusercontent.com/M11Vmt8T6ikgNnNULGfW4qT5oXiWP4yObhnKAXCht9N1KgVc02fQc1GcCyFypvsy3to3wlGv8oG-qiy1G26B9kfm1qb4BnZ3WnWTx6gm" 
+        src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/da2a63454352567f8bca0d37176b05a3~c5_720x720.jpeg?x-expires=1686391200&x-signature=xK3ofChx92HxXVPHw3QEKf4xjpQ%3D" 
         className="profile-img" 
         alt="profile" 
       />
