@@ -67,8 +67,8 @@ const MainComponent = () => {
 
                
                 const profile = await fetchProfile();
-                writeData();
-                getUsers();
+                // writeData();
+                // getUsers();
                 //setToken(current);
                 // console.log(profile);
                 // if (profile !== null) {
@@ -456,15 +456,14 @@ const MainComponent = () => {
                 
             </div>
             <button className="button" onClick={() => refresh()}>Refresh</button>
+            
               
          </article>
 
-
-            
-        <div className="radius">
+         <div className="radius">
             <label htmlFor="radius">Select radius in feet:</label>
             <select id="radius" value={radius} onChange={handleRadiusChange}>
-                <option value="5">5</option>
+                <option value="50">50</option>
                 <option value="100">100</option>
                 <option value="250">250</option>
                 <option value="500">500</option>
@@ -472,6 +471,8 @@ const MainComponent = () => {
                 <option value="100000">100000</option>
             </select>
         </div>
+            
+       
         
         </div>
     );

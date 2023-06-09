@@ -66,17 +66,21 @@ export default function SignUpForm( {callback}) {
     }
     return (
         <div className="RestofPage">
+        <article className = "grid">
         <div className="container">
             <h1>SpotifyBuds</h1>
             <form height="100px">
                 <input type="email" placeholder="Username" value={email} className="signupbar" onChange={(event) => setEmail(event.target.value)}></input>
                 
                 <input type="password" placeholder="Password" value={pwd} className="signupbar" onChange={(event) => setPwd(event.target.value)}></input>
-                <button className="button" onClick = {(event) => handleSignUp(event)}>Sign Up</button>{" "}
+                <button className="button2" onClick= {(event) => handleLogIn(event)}>Log In</button>{" "}
+                <button className="button3" onClick = {(event) => handleSignUp(event)}>Sign Up</button>{" "}
                 
-                <button className="button2" onClick= {(event) => handleLogIn(event)}>Log In</button>
+                
             </form>
         </div>
+        </article>
+       
       </div>
     );
 }

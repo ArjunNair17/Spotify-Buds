@@ -148,9 +148,10 @@
   }
 
   .radius{
-    margin-top: 50%;
+    margin-top: 25%;
+    margin-right:0%;
   }
 
-  .body {
-    overflow: hidden;
+  body {
+    overflow: auto;
   }

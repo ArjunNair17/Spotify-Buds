@@ -11,7 +11,7 @@ import MainComponent from '../spotify';
 export default function Main() {
     return (
     <div>
-        <h1>SpotifyBuds</h1>
+        <h1 classname="SpotifyBuds">SpotifyBuds</h1>
     <Router>
         <Routes>
              <Route path ="/" element = {<SignUpForm></SignUpForm>}/>

@@ -46,10 +46,14 @@
   .login-btn:hover {
     background-color: #0056b3;
   }
+  .grid {
+    display: grid;
+    place-items: center;
+  }
   
-  .button {
-    top: 498px;
-    right: 690px ;
+  .button3 {
+    top: 200px;
+    left: 1000px ;
     width: 120px;
     height: 40px;
     border: none;
@@ -60,10 +64,10 @@
     cursor: pointer;
     transition: all 0.3s ease;
   }
-  
+
   .button2 {
     top: 200px;
-    right: 600px ;
+    left: 1000px ;
     width: 120px;
     height: 40px;
     border: none;
@@ -91,5 +95,5 @@
 
   
   body {
-    overflow:auto;
+    overflow:hidden;
   }
